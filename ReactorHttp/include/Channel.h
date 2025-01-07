@@ -6,7 +6,11 @@
  ************************************************************************/
 
 #pragma once
-#include <stdbool.h>
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<sys/types.h>
+#include<unistd.h>
 
 //定义函数指针
 typedef int(*handleFunc)(void* arg);
