@@ -1,0 +1,2 @@
+/home/yds/webserver/ReactorHttp/build/CMakeFiles/rebuild_cache.dir
+/home/yds/webserver/ReactorHttp/build/CMakeFiles/edit_cache.dir

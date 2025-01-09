@@ -6,6 +6,7 @@
  ************************************************************************/
 
 #include "TcpServer.h"
+#include "TcpConnection.h"
 #include <arpa/inet.h>
 
 struct TcpServer* tcpServerInit(unsigned short port, int threadNum) {
@@ -63,6 +64,8 @@ int acceptConnection (void* arg) {
 	int cfd = accept(server->listener->lfd, NULL, NULL);
 	// 从线程池中取出一个子线程的反应堆实例,去处理这个cfd
 	struct EventLoop* evLoop = takeWorkerEventLoop(server->threadPool);
+	// 将cfd放到TcpConnection中处理
+	tcpConnectionInit(cfd, evLoop);
 }
 
 void tcpServerRun(struct TcpServer* server) {
