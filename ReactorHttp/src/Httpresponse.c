@@ -5,7 +5,7 @@
 	> Created Time: Thu 09 Jan 2025 02:47:18 PM CST
  ************************************************************************/
 
-#include "Httpresponse.h"
+#include "HttpResponse.h"
 #include <string.h>
 #include <strings.h>
 #include <stdlib.h>
@@ -56,6 +56,9 @@ void httpResponsePrepareMsg(struct HttpResponse* response, struct Buffer* sendBu
 	}
 	// 空行
 	bufferAppendString(sendBuf, "\r\n");
+#ifndef MSG_SEND_AUTO
+	bufferSendData(sendBuf, socket);
+#endif
 	// 回复的数据
 	response->sendDataFunc(response->fileName, sendBuf, socket);
 }

@@ -5,11 +5,16 @@
 	> Created Time: Mon 06 Jan 2025 07:33:43 PM CST
  ************************************************************************/
 
+#define _GNU_SOURCE 
 #include "Buffer.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
+#include <unistd.h>
 #include <sys/uio.h>
+#include <sys/types.h>
+#include <sys/socket.h>
 
 struct Buffer* bufferInit(int size) {
 	struct Buffer* buffer = (struct Buffer*)malloc(sizeof(struct Buffer));
@@ -39,27 +44,29 @@ void bufferExtendRoom(struct Buffer* buffer, int size) {
 	}
 	//内存够用需要合并才够用 - 不需要扩容
 	// 剩余的可写的内存 + 已读的内存 > size
-	else if (buffer->readPos + bufferWriteableSize(buffer) >= size) {
-		//得到未读的内存大小
-		int readable = bufferReadableSize(buffer);
-		//移动内存
-		memcpy(buffer->data, buffer->data + buffer->readPos, readable);
-		// 更新位置
-		buffer->readPos = 0;
-		buffer->writePos = readable;
-	}
-	//内容不够用 - 扩容
-	else {
-		void* temp = realloc(buffer->data, buffer->capacity + size);
-		if (temp == NULL) {
-			return ;//失败
-		}
-		//内存初始化
-		memset(temp + buffer->capacity, 0, size);
-		//更新数据
-		buffer->data = temp;
-		buffer->capacity += size;
-	}
+	else if (buffer->readPos + bufferWriteableSize(buffer) >= size)
+    {
+        // 得到未读的内存大小
+        int readable = bufferReadableSize(buffer);
+        // 移动内存
+        memcpy(buffer->data, buffer->data + buffer->readPos, readable);
+        // 更新位置
+        buffer->readPos = 0;
+        buffer->writePos = readable;
+    }
+    // 3. 内存不够用 - 扩容
+    else
+    {
+        void* temp = realloc(buffer->data, buffer->capacity + size);
+        if (temp == NULL)
+        {
+            return; // 失败了
+        }
+        memset(temp + buffer->capacity, 0, size);
+        // 更新数据
+        buffer->data = temp;
+        buffer->capacity += size;
+    }
 }
 
 int bufferWriteableSize(struct Buffer* buffer) {
@@ -72,7 +79,7 @@ int bufferReadableSize(struct Buffer* buffer) {
 
 //将data写入到buffer里面
 int bufferAppendData(struct Buffer* buffer, const char* data, int size) {
-	if (buffer == NULL ||data == NULL || data <= 0) {
+	if (buffer == NULL ||data == NULL || size <= 0) {
 		return -1;
 	}
 	//扩容
@@ -99,7 +106,7 @@ int bufferSocketRead(struct Buffer* buffer, int fd) {
 	vec[0].iov_base = buffer->data + buffer->writePos;
 	vec[0].iov_len = writeable;
 	char* tmpbuf = (char*)malloc(40960);
-	vec[1].iov_base = tmpbuf + buffer->writePos;
+	vec[1].iov_base = buffer->data + buffer->writePos;
 	vec[1].iov_len = 40960;
 	int result = readv(fd, vec, 2);
 	if (result == -1) {
@@ -122,4 +129,18 @@ char* bufferFindCRLF(struct Buffer* buffer) {
 		const void *needle, size_t needlelen);*/
 	char* ptr = memmem(buffer->data + buffer->readPos, bufferReadableSize(buffer), "\r\n", 2);
 	return ptr;
+}
+
+int bufferSendData(struct Buffer* buffer, int socket) {
+	//判断buffer有无数据
+	int readable = bufferReadableSize(buffer);
+	if (readable > 0) {
+		int count = send(socket, buffer->data + buffer->readPos, readable, MSG_NOSIGNAL);
+		if (count > 0) {
+			buffer->readPos += count;
+			usleep(1);
+		}
+		return count;
+	}
+	return 0;
 }

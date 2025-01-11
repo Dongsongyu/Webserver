@@ -1,2 +1,3 @@
 /home/yds/webserver/build/CMakeFiles/rebuild_cache.dir
 /home/yds/webserver/build/CMakeFiles/edit_cache.dir
+/home/yds/webserver/build/CMakeFiles/MyProject.dir

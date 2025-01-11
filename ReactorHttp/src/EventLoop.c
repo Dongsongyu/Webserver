@@ -6,8 +6,12 @@
  ************************************************************************/
 
 #include "EventLoop.h"
-#include <sys/socket.h>
 #include <assert.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 struct EventLoop* eventLoopInit() {
 	return eventLoopInitEx(NULL);
@@ -15,7 +19,7 @@ struct EventLoop* eventLoopInit() {
 
 //写数据
 void taskWakeup(struct EventLoop* evLoop) {
-	const char* msg = "我是要成为死神!!!";
+	const char* msg = "我要成为死神!!!";
 	write(evLoop->socketPair[0], msg, strlen(msg));
 }
 
@@ -46,7 +50,7 @@ struct EventLoop* eventLoopInitEx(const char* threadName) {
 	}
 	//指定规则: evLoop->socketPair[0] 发送数据, evLoop->socketPair[1] 接收数据
 	struct Channel* channel = channelInit(evLoop->socketPair[1], ReadEvent, 
-		readLocalMessage, NULL, evLoop);
+		readLocalMessage, NULL, NULL, evLoop);
 	//channel 添加到任务队列
 	eventLoopAddTask(evLoop, channel, ADD);
 
@@ -93,13 +97,16 @@ int eventLoopAddTask(struct EventLoop* evLoop, struct Channel* channel, int type
 	node->channel = channel;
 	node->type = type;
 	node->next = NULL;
-	//链表为空
-	if (evLoop->head == NULL) {
-		evLoop->head = evLoop->tail = node;
-	} else {
-		evLoop->tail->next = node; //添加
-		evLoop->tail = node; //后移
-	}
+	 // 链表为空
+    if (evLoop->head == NULL)
+    {
+        evLoop->head = evLoop->tail = node;
+    }
+    else
+    {
+        evLoop->tail->next = node;  // add
+        evLoop->tail = node;        // 后移
+    }
 	pthread_mutex_unlock(&evLoop->mutex);
 	//处理节点
 	/*
@@ -110,17 +117,19 @@ int eventLoopAddTask(struct EventLoop* evLoop, struct Channel* channel, int type
 		2).添加新的fd,添加任务节点的操作是由主线程发起的
 	2.不能让主线程处理任务队列,需要由当前的子线程去处理
 	*/
-	if (evLoop->threadID == pthread_self()) {
-		//当前子线程(基于子线程的角度分析)
-		eventLoopProcessTask(evLoop);
-	} else {
-		//主线程 -> 告诉子线程处理任务队列中的人物
-		//1.子线程正在工作
-		//2.子线程被阻塞了:select, poll, epoll
-		taskWakeup(evLoop);
-	}
+	if (evLoop->threadID == pthread_self())
+    {
+        // 当前子线程(基于子线程的角度分析)
+        eventLoopProcessTask(evLoop);
+    }
+    else
+    {
+        // 主线程 -- 告诉子线程处理任务队列中的任务
+        // 1. 子线程在工作 2. 子线程被阻塞了:select, poll, epoll
+        taskWakeup(evLoop);
+    }
 
-	return 0;
+    return 0;
 }
 
 int eventLoopProcessTask(struct EventLoop* evLoop) {
@@ -158,9 +167,10 @@ int eventLoopAdd(struct EventLoop* evLoop, struct Channel* channel) {
 	//文件描述符对应数组的下标
 	if (fd >= channelMap->size) {
 		// 没有足够的空间存储键值对 fd - channel ==> 扩容
-		if (!makeMapRoom(channelMap, fd, sizeof(struct Channel*))) {
-			return -1;
-		}
+        if (!makeMapRoom(channelMap, fd, sizeof(struct Channel*)))
+        {
+            return -1;
+        }
 	}
 	// 找到fd对应的数组元素位置,并存储
 	if (channelMap->list[fd] == NULL) {
@@ -184,21 +194,22 @@ int eventLoopRemove(struct EventLoop* evLoop, struct Channel* channel) {
 int eventLoopModify(struct EventLoop* evLoop, struct Channel* channel) {
 	int fd = channel->fd;
 	struct ChannelMap* channelMap = evLoop->channelMap;
-	if (fd >= channelMap->size || channelMap->list[fd] == NULL) {
-		return -1;
-	}
+	if (channelMap->list[fd] == NULL)
+    {
+        return -1;
+    }
 	int ret = evLoop->dispatcher->modify(channel, evLoop);
 
 	return ret;
 }
 
 int destroyChannel(struct EventLoop* evLoop, struct Channel* channel) {
-	//删除 channel和fd的对应关系
-	evLoop->channelMap->list[channel->fd] = NULL;
-	//关闭fd
-	close(channel->fd);
-	//释放channel
-	free(channel);
-
-	return 0;
+	// 删除 channel 和 fd 的对应关系
+    evLoop->channelMap->list[channel->fd] = NULL;
+    // 关闭 fd
+    close(channel->fd);
+    // 释放 channel
+    free(channel);
+	
+    return 0;
 }

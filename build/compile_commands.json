@@ -1,0 +1,72 @@
+[
+{
+  "directory": "/home/yds/webserver/build",
+  "command": "/usr/bin/gcc  -I/home/yds/webserver/ReactorHttp/include  -g   -o CMakeFiles/MyProject.dir/main.c.o   -c /home/yds/webserver/ReactorHttp/main.c",
+  "file": "/home/yds/webserver/ReactorHttp/main.c"
+},
+{
+  "directory": "/home/yds/webserver/build",
+  "command": "/usr/bin/gcc  -I/home/yds/webserver/ReactorHttp/include  -g   -o CMakeFiles/MyProject.dir/src/Buffer.c.o   -c /home/yds/webserver/ReactorHttp/src/Buffer.c",
+  "file": "/home/yds/webserver/ReactorHttp/src/Buffer.c"
+},
+{
+  "directory": "/home/yds/webserver/build",
+  "command": "/usr/bin/gcc  -I/home/yds/webserver/ReactorHttp/include  -g   -o CMakeFiles/MyProject.dir/src/Channel.c.o   -c /home/yds/webserver/ReactorHttp/src/Channel.c",
+  "file": "/home/yds/webserver/ReactorHttp/src/Channel.c"
+},
+{
+  "directory": "/home/yds/webserver/build",
+  "command": "/usr/bin/gcc  -I/home/yds/webserver/ReactorHttp/include  -g   -o CMakeFiles/MyProject.dir/src/ChannelMap.c.o   -c /home/yds/webserver/ReactorHttp/src/ChannelMap.c",
+  "file": "/home/yds/webserver/ReactorHttp/src/ChannelMap.c"
+},
+{
+  "directory": "/home/yds/webserver/build",
+  "command": "/usr/bin/gcc  -I/home/yds/webserver/ReactorHttp/include  -g   -o CMakeFiles/MyProject.dir/src/EpollDispatcher.c.o   -c /home/yds/webserver/ReactorHttp/src/EpollDispatcher.c",
+  "file": "/home/yds/webserver/ReactorHttp/src/EpollDispatcher.c"
+},
+{
+  "directory": "/home/yds/webserver/build",
+  "command": "/usr/bin/gcc  -I/home/yds/webserver/ReactorHttp/include  -g   -o CMakeFiles/MyProject.dir/src/EventLoop.c.o   -c /home/yds/webserver/ReactorHttp/src/EventLoop.c",
+  "file": "/home/yds/webserver/ReactorHttp/src/EventLoop.c"
+},
+{
+  "directory": "/home/yds/webserver/build",
+  "command": "/usr/bin/gcc  -I/home/yds/webserver/ReactorHttp/include  -g   -o CMakeFiles/MyProject.dir/src/HttpRequest.c.o   -c /home/yds/webserver/ReactorHttp/src/HttpRequest.c",
+  "file": "/home/yds/webserver/ReactorHttp/src/HttpRequest.c"
+},
+{
+  "directory": "/home/yds/webserver/build",
+  "command": "/usr/bin/gcc  -I/home/yds/webserver/ReactorHttp/include  -g   -o CMakeFiles/MyProject.dir/src/Httpresponse.c.o   -c /home/yds/webserver/ReactorHttp/src/Httpresponse.c",
+  "file": "/home/yds/webserver/ReactorHttp/src/Httpresponse.c"
+},
+{
+  "directory": "/home/yds/webserver/build",
+  "command": "/usr/bin/gcc  -I/home/yds/webserver/ReactorHttp/include  -g   -o CMakeFiles/MyProject.dir/src/PollDispatcher.c.o   -c /home/yds/webserver/ReactorHttp/src/PollDispatcher.c",
+  "file": "/home/yds/webserver/ReactorHttp/src/PollDispatcher.c"
+},
+{
+  "directory": "/home/yds/webserver/build",
+  "command": "/usr/bin/gcc  -I/home/yds/webserver/ReactorHttp/include  -g   -o CMakeFiles/MyProject.dir/src/SelectDispatcher.c.o   -c /home/yds/webserver/ReactorHttp/src/SelectDispatcher.c",
+  "file": "/home/yds/webserver/ReactorHttp/src/SelectDispatcher.c"
+},
+{
+  "directory": "/home/yds/webserver/build",
+  "command": "/usr/bin/gcc  -I/home/yds/webserver/ReactorHttp/include  -g   -o CMakeFiles/MyProject.dir/src/TcpConnection.c.o   -c /home/yds/webserver/ReactorHttp/src/TcpConnection.c",
+  "file": "/home/yds/webserver/ReactorHttp/src/TcpConnection.c"
+},
+{
+  "directory": "/home/yds/webserver/build",
+  "command": "/usr/bin/gcc  -I/home/yds/webserver/ReactorHttp/include  -g   -o CMakeFiles/MyProject.dir/src/TcpServer.c.o   -c /home/yds/webserver/ReactorHttp/src/TcpServer.c",
+  "file": "/home/yds/webserver/ReactorHttp/src/TcpServer.c"
+},
+{
+  "directory": "/home/yds/webserver/build",
+  "command": "/usr/bin/gcc  -I/home/yds/webserver/ReactorHttp/include  -g   -o CMakeFiles/MyProject.dir/src/ThreadPool.c.o   -c /home/yds/webserver/ReactorHttp/src/ThreadPool.c",
+  "file": "/home/yds/webserver/ReactorHttp/src/ThreadPool.c"
+},
+{
+  "directory": "/home/yds/webserver/build",
+  "command": "/usr/bin/gcc  -I/home/yds/webserver/ReactorHttp/include  -g   -o CMakeFiles/MyProject.dir/src/WorkerThread.c.o   -c /home/yds/webserver/ReactorHttp/src/WorkerThread.c",
+  "file": "/home/yds/webserver/ReactorHttp/src/WorkerThread.c"
+}
+]

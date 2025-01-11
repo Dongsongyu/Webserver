@@ -8,6 +8,9 @@
 #include "TcpServer.h"
 #include "TcpConnection.h"
 #include <arpa/inet.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "log.h"
 
 struct TcpServer* tcpServerInit(unsigned short port, int threadNum) {
 	struct TcpServer* tcp = (struct TcpServer*)malloc(sizeof(struct TcpServer));
@@ -28,7 +31,7 @@ struct Listener* listenerInit(unsigned short port) {
 	}
 	int opt = 1;
 	//当主动断开连接的一方断开连接之后需要在一分钟之后才能释放绑定端口,没释放前不能再次使用
-	int ret = setsockopt(lfd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));
+	int ret = setsockopt(lfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 	if (ret == -1) {
 		perror("setsockopt");
 		return NULL;
@@ -66,15 +69,17 @@ int acceptConnection (void* arg) {
 	struct EventLoop* evLoop = takeWorkerEventLoop(server->threadPool);
 	// 将cfd放到TcpConnection中处理
 	tcpConnectionInit(cfd, evLoop);
+	return 0;
 }
 
 void tcpServerRun(struct TcpServer* server) {
+	Debug("服务器程序已经启动了...");
 	// 启动线程池
 	threadPoolRun(server->threadPool);
 	// 添加检测的任务
 	//初始化一个channel实例
 	struct Channel* channel = channelInit(server->listener->lfd, 
-		ReadEvent, acceptConnection, NULL, server);
+		ReadEvent, acceptConnection, NULL, NULL, server);
 	eventLoopAddTask(server->mainLoop, channel, ADD);
 	// 启动反应堆模型
 	eventLoopRun(server->mainLoop);

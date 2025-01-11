@@ -7,6 +7,7 @@
 
 #pragma once
 #include <pthread.h>
+#include <stdio.h>
 #include "EventLoop.h"
 
 //定义子线程对应的结构体

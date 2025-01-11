@@ -6,7 +6,9 @@
  ************************************************************************/
 
 #include "Channel.h"
-struct Channel* channelInit(int fd, int events, handleFunc readFunc, handleFunc writeFunc, void *arg)
+#include <stdlib.h>
+
+struct Channel* channelInit(int fd, int events, handleFunc readFunc, handleFunc writeFunc, handleFunc destroyFunc, void *arg)
 {
 	struct Channel* channel = (struct Channel*)malloc(sizeof(struct Channel));
 	channel->arg = arg;
@@ -14,7 +16,8 @@ struct Channel* channelInit(int fd, int events, handleFunc readFunc, handleFunc 
 	channel->events = events;
 	channel->readCallback = readFunc;
 	channel->writeCallback = writeFunc;
-	return nullptr;
+	channel->destroyCallback = destroyFunc;
+	return channel;
 }
 
 void writeEventEnable(struct Channel* channel, bool flag) {

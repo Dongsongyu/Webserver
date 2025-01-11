@@ -8,6 +8,7 @@
 #include "ChannelMap.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct ChannelMap* channelMapInit(int size) {
 	struct ChannelMap* map = (struct ChannelMap*)malloc(sizeof(struct ChannelMap));
