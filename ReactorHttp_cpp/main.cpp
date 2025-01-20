@@ -5,12 +5,48 @@
 	> Created Time: Mon 13 Jan 2025 01:49:08 PM CST
  ************************************************************************/
 
-#include<iostream>
-using namespace std;
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include "TcpServer.h"
 
-int main()
+//cmake -S . -B build/    
+//cmake --build build/ 
+int main(int argc, char* argv[])
 {
-
+//需要把服务器进程切换到用户指定目录下面
+	if (argc < 3) {
+		printf("./a.out port path\n");
+		return -1;
+	}
+	unsigned short port = atoi(argv[1]);
+	//切换服务器的工作路径
+	chdir(argv[2]);
+	//启动服务器
+	TcpServer* server = new TcpServer(port, 4);
+    server->run();
 
 	return 0;
 }
+
+// int main(int argc, char* argv[])
+// {
+// #if 0
+//     if (argc < 3)
+//     {
+//         printf("./a.out port path\n");
+//         return -1;
+//     }
+//     unsigned short port = atoi(argv[1]);
+//     // 切换服务器的工作路径
+//     chdir(argv[2]);
+// #else
+//     unsigned short port = 10000;
+//     chdir("/home/robin/luffy");
+// #endif
+//     // 启动服务器
+//     TcpServer* server = new TcpServer(port, 4);
+//     server->run();
+
+//     return 0;
+// }
