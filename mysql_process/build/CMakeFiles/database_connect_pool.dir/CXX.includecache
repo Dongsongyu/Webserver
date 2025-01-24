@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/MysqlConn.h
+iostream
+-
+mysql/mysql.h
+-
+chrono
+-
+
+/home/yds/webserver/mysql_process/main.cpp
+iostream
+-
+memory
+-
+MysqlConn.h
+/home/yds/webserver/mysql_process/MysqlConn.h
+
+/home/yds/webserver/mysql_process/src/MysqlConn.cpp
+MysqlConn.h
+/home/yds/webserver/mysql_process/src/MysqlConn.h
+

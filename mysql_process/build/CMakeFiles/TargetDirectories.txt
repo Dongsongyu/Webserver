@@ -1,0 +1,3 @@
+/home/yds/webserver/mysql_process/build/CMakeFiles/rebuild_cache.dir
+/home/yds/webserver/mysql_process/build/CMakeFiles/edit_cache.dir
+/home/yds/webserver/mysql_process/build/CMakeFiles/database_connect_pool.dir

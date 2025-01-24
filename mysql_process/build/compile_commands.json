@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/home/yds/webserver/mysql_process/build",
+  "command": "/usr/bin/c++   -I/home/yds/webserver/mysql_process/include   -O0 -Wall -g2 -ggdb   -std=gnu++2a -o CMakeFiles/database_connect_pool.dir/src/ConnectionPool.cpp.o -c /home/yds/webserver/mysql_process/src/ConnectionPool.cpp",
+  "file": "/home/yds/webserver/mysql_process/src/ConnectionPool.cpp"
+},
+{
+  "directory": "/home/yds/webserver/mysql_process/build",
+  "command": "/usr/bin/c++   -I/home/yds/webserver/mysql_process/include   -O0 -Wall -g2 -ggdb   -std=gnu++2a -o CMakeFiles/database_connect_pool.dir/src/MysqlConn.cpp.o -c /home/yds/webserver/mysql_process/src/MysqlConn.cpp",
+  "file": "/home/yds/webserver/mysql_process/src/MysqlConn.cpp"
+},
+{
+  "directory": "/home/yds/webserver/mysql_process/build",
+  "command": "/usr/bin/c++   -I/home/yds/webserver/mysql_process/include   -O0 -Wall -g2 -ggdb   -std=gnu++2a -o CMakeFiles/database_connect_pool.dir/main.cpp.o -c /home/yds/webserver/mysql_process/main.cpp",
+  "file": "/home/yds/webserver/mysql_process/main.cpp"
+}
+]
