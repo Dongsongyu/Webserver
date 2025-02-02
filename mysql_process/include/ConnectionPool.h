@@ -32,7 +32,7 @@ private:
 	int m_minSize;
 	int m_maxSize;
 	int m_timeout;
-	int m_maxIdleTime;
+	int m_maxIdTime;
 	std::queue<MysqlConn*> m_connectionQ;
 	std::mutex m_mutexQ;
 	std::condition_variable m_cond;
